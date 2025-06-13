@@ -6,7 +6,6 @@
     Utilise la variable firstname dans message pour obtenir l’affichage du message : Bonjour Beyonce !
     Attention, ici il s’agit bien de modifier la variable messageet non le console.log()
 */
-prompt()
 let message = "Bonjour !"
 console.log(message);
 
@@ -54,5 +53,5 @@ function sayHello2(firstname,hour){
     }
     return `Bonjour ${firstname} !`
 }
-document.querySelector('h1').innerText = message;
+document.querySelector('h1').innerText = sayHello2(prompt(), 19);
 
