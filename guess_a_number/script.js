@@ -3,9 +3,7 @@
     Créer une fonction qui demande un nombre à l’utilisateur à l’aide d’un prompteur. (Attention tous les compilateurs en ligne ne permettent pas la prise d’input, prendre celui dans l’énoncé si besoin).
     Stocker sa réponse dans une variable de type adéquat nommée givenNumber.
 */
-
 //on peut mettre les deux lignes en dessus dans une seule ligne: return = givenNumber xxx
-
 // Etape 2
 // function didIWin(givenNumber){
 //     if (givenNumber ==22){
@@ -17,7 +15,6 @@
 //     }
 // }
 //c'est quoi une alert
-
 //Etape 3
 /* 
     Désormais la fonction didIWin devra retourner true si l’utilisateur a trouvé le chiffre, false sinon.
@@ -29,32 +26,23 @@
 // //prompt("text") permet d'afficher un pop up avec un text
 //    return givenNumber
 // }
-// alert(askNumber())
-// // function didIWin(number){
-// //     if (number ==22){
-// //         return true 
-// //     }else {
-// //         return false 
-// //     }
-// // }
+// function didIWin(number){
+//     if (number ==22){
+//         return true 
+//     }else {
+//         return false 
+//     }
+// }
 // function gamePlay(){
 // // on doit récupérer d'abord les résultats de return des deux fonctions déjà créees
-//     let number = askNumber()//on récupère le givennumber
-//     let result = didIWin(number) //on récupère un true ou false
+//     let givenNumber = askNumber()//on récupère le givennumber
+//     let result = didIWin(givenNumber) //on récupère un true ou false
 // //objectif de notre jeu : tant que l'utilisateur n'a pas trouvé le chiffre 22, on relance le prompt et la vérification, donc il nous faut une boucle while
 //     while (result==false){//à ne pas confondre avec le = 
-//         if (number <22){
-//             alert("Plus grand")
-//             number= askNumber()
-//             result=didIWin(number)
+//             givenNumber=askNumber()
+//             result=didIWin(givenNumber)
 //         }
-//         else if(number >22){
-//             alert("Plus petit")
-//             number= askNumber()
-//             result=didIWin(number)
-//         }
-//     }
-//     alert ("Bravo")
+//         alert ("Bravo")
 // }
 // alert(gamePlay())//alert s'utilise comme console.log mais pour afficher dans la navigateur
 
@@ -66,27 +54,40 @@
 // tant qu’il ne respecte pas ce range.
 // La fonction didIWin doit prendre désormais un autre paramètre, le nombre à deviner.
 // Reprenez la logique 1, 2 et 3 pour gérer la partie et lui indiquer s’il doit continuer à jouer ou s’il a gagné.
-function askNumber(){
-   let givenNumber = prompt("What is your number?") 
-   return givenNumber
-}
 function giveGuessNumber(){
     let numberToGuess = prompt("Give the number to guess")
     return numberToGuess
 }
-function verifyGuessNumber(){
-    let number = giveGuessNumber()
-    while(number<0 || number>50){
-        number=giveGuessNumber()
+function verifiedGuessNumber(){
+    let numberToGuess = giveGuessNumber()
+    while(numberToGuess<0 || numberToGuess>50){
+        numberToGuess=giveGuessNumber()
     }
-    return number
+    return numberToGuess
 }
-alert(verifyGuessNumber())
-// function didIWin(number1,number2){
-//     if (number1 ==number2){
-//         return true 
-//     }else {
-//         return false 
-//     }
-// }
+// alert(verifiedGuessNumber())
+function askNumber(){
+   let givenNumber = prompt("What is your number?") 
+   return givenNumber
+}
+function didIWin(number1,number2){
+    if (number1 ==number2){
+        return true 
+    }else {
+        return false 
+    }
+}
+
+function gamePlay(){
+    let verifiedNumber = verifiedGuessNumber()
+    let givenNumber = askNumber()//on récupère le givennumber
+    let result = didIWin(verifiedNumber,givenNumber) //on récupère un true ou false
+//objectif de notre jeu : tant que l'utilisateur n'a pas trouvé le chiffre 22, on relance le prompt et la vérification, donc il nous faut une boucle while
+    while (result==false){
+            givenNumber=askNumber()//on attribue une nouvelle valeur
+            result=didIWin(verifiedNumber,givenNumber)
+        }
+        alert ("Bravo")
+}
+alert(gamePlay())//alert s'utilise comme console.log mais pour afficher dans la navigateur
 
