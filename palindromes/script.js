@@ -34,6 +34,7 @@ function isValidDate(dateStr) {
 console.log(isValidDate("29/02/2002"));
 console.log(isValidDate("29/02/20é2"));
 console.log(isValidDate("29/02/2024"));
+console.log("-----------------------------");
 
 /*etape 2*/
 function isPalindrome(dateStr) {
@@ -50,31 +51,33 @@ function isPalindrome(dateStr) {
     };
 };
 
-console.log(isPalindrome("11/02/2011"));
+console.log(isPalindrome("kayak"));
 console.log(isPalindrome("03/04/2001"));
 console.log(isPalindrome("23/02/2032"));
 
 /*etape 3*/
-// function getNextPalindromes() {
+function getNextPalindromes(number) {
 
-//     let yearNr = 2030;
-//     let index = 0;
-//     let result = [];
+    let yearNr = 2025;
+    let index = 0;
+    let result = [];
 
-//     while(index<3) {
-//         let year = yearNr.toString()
-//         let reverseYear = year.split("").reverse().join("");
-//         let date = reverseYear + year;
-//         // console.log("combinedDate", date);
-//         let newDate = date.slice(0, 2) + "/" + date.slice(2, 4) + "/" + date.slice(4);
-//         console.log("newdate",newDate);
-//         console.log(isPalindrome(newDate))
-//         if (isValidDate(newDate)===true && isPalindrome(newDate) === true) {
-//             result.push(newDate);
-//             index++
-//             yearNr++
-//         };
-//     };
-//     return result;
+    while (index < number) {
+        let year = yearNr.toString();
+        let reverseYear = year.split("").reverse().join("");
+        let date = reverseYear + year;
+        let newDate = date.slice(0, 2) + "/" + date.slice(2, 4) + "/" + date.slice(4);
+        if (isValidDate(newDate) === true && isPalindrome(newDate) === true) {
+            result.push(newDate);
+            index++;
+        };
+        yearNr++
+    };
+    return result;
+}
+console.log(getNextPalindromes(6));
 
-console.log(getNextPalindromes());
+/*etape 4*/
+function isDatePalindrome (date){
+    return isValidDate(date) && isPalindrome(date)
+};
