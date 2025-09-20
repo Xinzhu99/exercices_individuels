@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:3000";
+
 //fonction pour recevoir le data des menus
 const getData = async (params) => {
   try {
@@ -12,8 +13,10 @@ const getData = async (params) => {
 
 //utiliser les url searchparams pour récupérer le nom de l'user dans l'input
 let paramString = window.location.search
+console.log(paramString)
 let searchParams = new URLSearchParams(paramString)
 let userInput = searchParams.get("userName")
+localStorage.setItem("user",userInput)
 
 document.querySelector("#message").innerHTML = `Bonjour ${userInput}`
 
@@ -26,20 +29,9 @@ const loadMenu = async (params) => {
                 <h2>${item.image}</h2>
                 <h3>${item.plate}</h3>
                 <p>${item.description}</p>
-                <a data-index=${index} class="orderBtn" href= "../pages/order.html">Commander</a>
+                <a href="../pages/order.html?index=${index}">Commander</a>
             </div>`
     index++
-  }
-  let selectedDish = []
-  const orderBtn = document.querySelectorAll(".orderBtn")
-  console.log("buttons", orderBtn)
-  for (const btn of orderBtn) {
-    btn.addEventListener("click", (event) => {
-      console.log("Hello")
-      const clikedDish = btn.dataset.index
-      selectedDish.push(data[clikedDish])
-      console.log(selectedDish)
-    })
   }
 }
 loadMenu()

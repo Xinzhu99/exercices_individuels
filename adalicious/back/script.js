@@ -3,12 +3,6 @@ import cors from "cors";
 
 const app = express();
 app.use(cors()); //!il faut le mettre avant les routes!! sinon les apis ne recoivent pas le header 
-
-app.get("/", (req, res) => {  
-res.send("Accueil");
-});
-
-app.get("/menu", (req, res) => {    
 const data = [
   {
     "plate": "Hello World Burger",
@@ -46,8 +40,36 @@ const data = [
     "image": "🥗"
   }
 ];     
+app.get("/", (req, res) => {  
+res.send("Accueil");
+});
+
+app.get("/menu", (req, res) => {    
 res.json(data);
 });
+
+let orders = []
+
+app.get("/menu/:index/:user", (req, res) => {  
+const index = Number(req.params.index)
+const user = req.params.user
+const plat = data.find(p => data.indexOf(p) === index);  
+if (!plat) return res.status(404).json({ error: `Plat id=${index} non trouvé` });  
+  let order = {}
+  order.plate = plat.plate
+  order.description = plat.description
+  order.image = plat.image
+  order.username = user
+  order.status = 1
+  orders.push(order)
+
+  res.json(plat);
+});
+
+app.get("/orders", (req, res) =>{
+  res.json(orders)
+})
+
 
 app.listen(3000, () => {  console.log("Serveur lancé sur http://localhost:3000");});
 // Active CORS → permet au front (par ex. sur un autre port) d'appeler ton back
