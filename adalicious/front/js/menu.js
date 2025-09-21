@@ -11,9 +11,9 @@ const getData = async (params) => {
   }
 };
 
-//utiliser les url searchparams pour récupérer le nom de l'user dans l'input
+//utiliser les url searchparams pour récupérer le nom de l'user dans l'input et le stocker dans
+//localstorage pour l'utiliser sur d'autres pages
 let paramString = window.location.search
-console.log(paramString)
 let searchParams = new URLSearchParams(paramString)
 let userInput = searchParams.get("userName")
 localStorage.setItem("user",userInput)

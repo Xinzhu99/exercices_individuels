@@ -49,24 +49,32 @@ res.json(data);
 });
 
 let orders = []
-
+//create an api with index and user params
+//appele de cet api a deux résultats : envoi du plat trouvé + ajouter un object order dans orders
 app.get("/menu/:index/:user", (req, res) => {  
 const index = Number(req.params.index)
 const user = req.params.user
 const plat = data.find(p => data.indexOf(p) === index);  
-if (!plat) return res.status(404).json({ error: `Plat id=${index} non trouvé` });  
+if (!plat) return res.status(404).json({ error: `Plat id=${index} non trouvé` })
+//créer un nouvel objet pour chaque commande qui contient les infos suivantes
   let order = {}
   order.plate = plat.plate
   order.description = plat.description
   order.image = plat.image
   order.username = user
-  order.status = 1
+  order.status = "En préparation"
+
   orders.push(order)
 
   res.json(plat);
 });
 
 app.get("/orders", (req, res) =>{
+  res.json(orders)
+})
+app.get("/delete/:index", (req,res) => {
+  const index=Number(req.params.index)
+  orders.splice(index,1)
   res.json(orders)
 })
 
