@@ -77,7 +77,13 @@ app.get("/delete/:index", (req,res) => {
   orders.splice(index,1)
   res.json(orders)
 })
-
+let completedOrders = []
+app.get("/complete/:index", (req,res) => {
+  const index=Number(req.params.index)
+  completedOrders.push(orders[index])
+  orders.splice(index,1)
+  res.json(orders)
+})
 
 app.listen(3000, () => {  console.log("Serveur lancé sur http://localhost:3000");});
 // Active CORS → permet au front (par ex. sur un autre port) d'appeler ton back

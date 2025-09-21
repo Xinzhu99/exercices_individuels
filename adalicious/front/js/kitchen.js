@@ -6,19 +6,26 @@ const loadOrders = async (params) => {
     const orders = await response.json();
 
     showOrders(orders);
-
     const cancleBtns = document.querySelectorAll(".cancle");
-    console.log(cancleBtns);
-
     cancleBtns.forEach((btn) => {
-        const deleteIndex = btn.dataset.index;
+      const deleteIndex = btn.dataset.index;
       btn.addEventListener("click", (event) => {
         console.log(deleteIndex);
-        deleteOrders(deleteIndex)
-        loadOrders()
+        deleteOrders(deleteIndex);
+        loadOrders();
       });
     });
-  } catch (error) {
+
+    const readyBtns = document.querySelectorAll(".ready");
+    readyBtns.forEach((btn) =>{
+      const completeIndex = btn.dataset.index;
+      btn.addEventListener("click", (event) => {
+        console.log(completeIndex);
+        completeOrders(completeIndex);
+        loadOrders();      
+    });
+  });
+ } catch (error) {
     console.log("Having difficulty connecting to api.", error);
   }
 };
@@ -45,7 +52,15 @@ const deleteOrders = async (index) => {
   try {
     const response = await fetch(`${API_URL}/delete/${index}`);
     const newOrders = await response.json();
-    showOrders(newOrders);
+  } catch (error) {
+    console.log("Having difficulty connecting to api.", error);
+  }
+};
+
+const completeOrders = async (index) => {
+  try {
+    const response = await fetch(`${API_URL}/complete/${index}`);
+    const newOrders = await response.json();
   } catch (error) {
     console.log("Having difficulty connecting to api.", error);
   }
