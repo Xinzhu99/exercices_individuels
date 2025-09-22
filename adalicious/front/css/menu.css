@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Schoolbell&display=swap");
+
+* {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+body {
+  text-align: center;
+  gap: 20px;
+  font-family: "Schoolbell", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
