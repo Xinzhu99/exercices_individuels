@@ -7,31 +7,32 @@ const getData = async (params) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log("Having difficulty connecting to api.")
+    console.log("Having difficulty connecting to api.", error);
   }
 };
 
 //utiliser les url searchparams pour récupérer le nom de l'user dans l'input et le stocker dans
 //localstorage pour l'utiliser sur d'autres pages
-let paramString = window.location.search
-let searchParams = new URLSearchParams(paramString)
-let userInput = searchParams.get("userName")
-localStorage.setItem("user",userInput)
+let paramString = window.location.search;
+let searchParams = new URLSearchParams(paramString);
+let userInput = searchParams.get("userName");
+localStorage.setItem("user",userInput);
 
-document.querySelector("#message").innerHTML = `Bonjour ${userInput}`
+document.querySelector("#message").innerHTML = `Bonjour ${userInput} !`
 
-//fonction pour afficher tous les plats du menu
+//fonction pour afficher tous les plats du menu 
 const loadMenu = async (params) => {
-  let data = await getData()
-  let index = 0
+  let data = await getData();
   for (const item of data) {
-    document.querySelector("#grid").innerHTML += `<div classe="card">
+    document.querySelector("#grid").innerHTML += `<div class="card">
                 <h2>${item.image}</h2>
                 <h3>${item.plate}</h3>
                 <p>${item.description}</p>
-                <a href="../pages/order.html?index=${index}">Commander</a>
+                <div class="linkContainer">
+                  <a href="../pages/order.html?id=${item.id}">Commander</a>    
+                </div>
             </div>`
-    index++
-  }
-}
-loadMenu()
+  };
+};
+loadMenu();
+

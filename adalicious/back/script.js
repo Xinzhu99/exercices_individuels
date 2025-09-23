@@ -3,87 +3,97 @@ import cors from "cors";
 
 const app = express();
 app.use(cors()); //!il faut le mettre avant les routes!! sinon les apis ne recoivent pas le header 
+app.use(express.json()); //!indispensable pour parser le json reçu du front
 const data = [
   {
     "plate": "Hello World Burger",
     "description": "Un cheeseburger classique (pain, steak, fromage, salade, sauce).",
-    "image": "🍔"
+    "image": "🍔",
+    "id":1
   },
   {
     "plate": "404 Not Found Fries",
     "description": "Des frites maison avec une sauce mystère (choisie aléatoirement par le backend !).",
-    "image": "🍟"
+    "image": "🍟",
+    "id":2
   },
   {
     "plate": "JSON Nuggets",
     "description": "Nuggets de poulet avec 3 sauces au choix (ketchup, mayo, barbecue).",
-    "image": "🍗"
+    "image": "🍗",
+    "id":3
   },
   {
     "plate": "Git Pull Tacos",
     "description": "Un taco simple avec poulet, salade, fromage et sauce.",
-    "image": "🌮"
+    "image": "🌮",
+    "id":4
   },
   {
     "plate": "Front-end Salad",
     "description": "Une salade légère avec tomates, feta et vinaigrette maison.",
-    "image": "🥗"
+    "image": "🥗",
+    "id":5
   },
   {
     "plate": "Back-End Brownie",
     "description": "Un brownie moelleux au chocolat.",
-    "image": "🍫"
+    "image": "🍫",
+    "id":6
   },
   {
     "plate": "Full Stack Menu",
     "description": "Un combo burger, frites et boisson.",
-    "image": "🥗"
+    "image": "🥗",
+    "id":7
   }
 ];     
-app.get("/", (req, res) => {  
-res.send("Accueil");
-});
 
+//créer une route qui permet de récupérer tout le tableau des plats
 app.get("/menu", (req, res) => {    
 res.json(data);
 });
 
-let orders = []
-//create an api with index and user params
-//appele de cet api a deux résultats : envoi du plat trouvé + ajouter un object order dans orders
-app.get("/menu/:index/:user", (req, res) => {  
-const index = Number(req.params.index)
-const user = req.params.user
-const plat = data.find(p => data.indexOf(p) === index);  
-if (!plat) return res.status(404).json({ error: `Plat id=${index} non trouvé` })
-//créer un nouvel objet pour chaque commande qui contient les infos suivantes
-  let order = {}
-  order.plate = plat.plate
-  order.description = plat.description
-  order.image = plat.image
-  order.username = user
-  order.status = "En préparation"
-
-  orders.push(order)
-
-  res.json(plat);
+//créer une route qui permet de récupérer le plat avec le param id
+app.get("/menu/:id", (req, res) => {    
+  const id= Number(req.params.id);   //!req.params permet de récupérer les params du front 
+  const dish = data.find(item => item.id === id);
+  if(!dish) return res.status(404).json({error: `Plat id=${id} non trouvé`});
+  res.json(dish);
+  // console.log(dish);
 });
 
-app.get("/orders", (req, res) =>{
-  res.json(orders)
-})
-app.get("/delete/:index", (req,res) => {
-  const index=Number(req.params.index)
-  orders.splice(index,1)
-  res.json(orders)
-})
-let completedOrders = []
-app.get("/complete/:index", (req,res) => {
-  const index=Number(req.params.index)
-  completedOrders.push(orders[index])
-  orders.splice(index,1)
-  res.json(orders)
+//appele de cet api : ajouter un object dans orders
+const orders=[];
+app.post("/orders", (req, res) =>{
+  console.log("[POST/orders] body reçu:", req.body);
+  const {idPlat, plate,client,status,image} = req.body; //!req.body est stocké dans une variable d'objet
+  const newOrder ={
+    id: orders.length+1, //!pour créer les ids auto-incrémenté
+    idPlat,
+    plate,
+    client,
+    status,
+    image,
+  }
+  orders.push(newOrder);
+  return res.status(201).json({ok:true,message:`commande ${plate} reçue de ${client}`})
+});
+
+app.get ("/orders/kitchen", (req, res) =>{
+  const workingOrders = orders.filter(item => item.status === "En préparation")
+  console.log(workingOrders)
+  res.json(workingOrders);
 })
 
+app.patch("/orders/kitchen/update/:id", (req,res)=>{
+  const id =Number(req.params.id);
+  const {status} = req.body;
+  const order =data.find(item => item.id === id);
+  order.status = status;
+  console.log(req.body)
+  return res.status(201).json({ok:true, message:`commande ${id} est prête`})
+
+})
 app.listen(3000, () => {  console.log("Serveur lancé sur http://localhost:3000");});
 // Active CORS → permet au front (par ex. sur un autre port) d'appeler ton back
