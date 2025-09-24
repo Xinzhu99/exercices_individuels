@@ -20,10 +20,11 @@ const fetchDish = async () => {
   };
 };
 fetchDish();
-const dish = await fetchDish();
+const data = await fetchDish();
+const dish = await data[0];
 //fonction qui permet d'afficher les plats commandés dynamiquement
 const loadDish = async (params) => {
-//   console.log(dish);
+// console.log("dish",dish);
   document.querySelector("#grid").innerHTML += `<div class="card">
         <h3 class="status">En préparation</h3>
         <h2>${dish.image}</h2>
@@ -39,11 +40,9 @@ const createOrder = async (dish) => {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //! je précise au serveur que je vais envoyer les data en fromat json
       body: JSON.stringify({
-        idPlat: dish.id,
-        plate: dish.plate,
-        client: user,
-        status: "En préparation",
-        image:dish.image,
+        dish_id: dish.id,
+        client_name: user,
+        status: false,
       }),
     });
     const data = await response.json();
