@@ -50,6 +50,8 @@ form {
     font-size: 16px;
     padding: 0.7rem 2.5rem;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
   }
 }
 

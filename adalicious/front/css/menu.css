@@ -24,7 +24,7 @@ h2 {
   .card {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    width: 70vw;
+    width: 40vw;
     h2 {
       font-size: 48px;
     }

@@ -35,10 +35,9 @@ function showOrders(orders) {
   for (const order of orders) {
     document.querySelector("#grid").innerHTML += `
         <div class="orderCard">
-            <h3>Commande de ${order.name}</h3>
-            <p>${order.image}</p>
-            <p>${order.plate} x 1</p>
-            <button class="prep">${order.status}</button>
+            <h3>Commande de <span class="client">${order.name}</span></h3>
+            <h2>${order.image}</h2>
+            <h3>${order.plate} x 1</h3>
             <button class="ready" data-index=${order.id}>Prête</button>
             <button class="cancle" data-index=${order.id}>Annuler la commande</button>
         </div>`;
@@ -50,7 +49,7 @@ const completeOrders = async (id) => {
   try {
     const response = await fetch(`${API_URL}/orders/kitchen/update/${id}`,{
       method:"PATCH",
-      headers:{"Content-TYpe": "application/json"},
+      headers:{"Content-Type": "application/json"},
       body:JSON.stringify({status:true}),
     });
     const data = await response.json();
@@ -68,7 +67,6 @@ const deleteOrders = async (id) => {
     });
     const data = await response.json();
     alert (`${data.message}`);
-    console.log(data)
     loadOrders();
   } catch (error) {
     console.log("erreur api", error);

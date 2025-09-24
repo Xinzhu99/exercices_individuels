@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Schoolbell&display=swap");
+
+* {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+body {
+  text-align: center;
+  gap: 20px;
+  font-family: "Schoolbell", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+h2 {
+  font-size: 48px;
+}
+.client {
+  color: green;
+}
+#grid {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5%;
+  .orderCard {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 70vw;
+    h2 {
+      font-size: 48px;
+    }
+    > button {
+      border: none;
+      border-radius: 10px;
+      background-color: lightskyblue;
+      color: white;
+      font-family: "Schoolbell", cursive;
+      font-weight: 400;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      height: 50px;
+      padding: 1rem;
+      min-width: 80px;
+    }
+    .cancle {
+      background-color: rgb(224, 63, 63);
+    }
+    .ready{
+        background-color: rgb(92, 177, 92);
+    }
+  }
+}

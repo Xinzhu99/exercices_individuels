@@ -100,13 +100,12 @@ app.patch("/orders/kitchen/update/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { status } = req.body;
-    const updateOrder = await pool.query(`
+    const updateOrder = await pool.query("\
     UPDATE orders\
-    SET status = ${status}\
-    where id = ${id}`);
-
+    SET status = $1\
+    where id = $2 RETURNING *",[status, id]);
     return res
-      .status(201)
+      .status(200)
       .json({ ok: true, message: `commande ${id} est prête` });
   } catch (error) {
     console.error("erreur lors de la mise à jour de la commande", error);
@@ -123,10 +122,11 @@ app.delete("/orders/kitchen/delete/:id", async (req, res) =>{
     if (deleteOrder.rows.length === 0){
       return res.status(404).json({error: `commande ${id} non trouvée`})
     }
-    return res.json({
+    return res.status(200)
+    .json({
       ok: true,
       message: `commande ${id} supprimée`
-    })
+    });
   } catch (error) {
     // console.error("erreur lors de la suppression commande", error);
     // res.status(500).json({error : "erreur serveur"});
