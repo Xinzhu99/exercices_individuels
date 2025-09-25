@@ -78,6 +78,7 @@ app.post("/orders", async (req, res) => {
   }
 });
 
+//froute qui permet de récupérer toutes les commandes en prep
 app.get("/orders/kitchen", async (req, res) => {
   try {
     const result = await pool.query(
@@ -87,19 +88,20 @@ app.get("/orders/kitchen", async (req, res) => {
        JOIN dishes ON dishes.id =orders.dish_id\
       WHERE orders.status= false"
     );
-    if (!result)
-      return res.status(404).json({ error: "pas de commande en préparation" });
+    // if (!result)
+    //   return res.status(404).json({ error: "pas de commande en préparation" });
     res.json(result.rows);
   } catch (error) {
     console.error("Erreur lors de la récupération des commandes", error);
     res.status(500).json({ error: "Erreur serveur" });
-  }
+  };
 });
 
+//fonction qui permet de recevoir la mise à jour le status des commandes et renvoyer un message 
 app.patch("/orders/kitchen/update/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { status } = req.body;
+    const {status} = req.body;
     const updateOrder = await pool.query("\
     UPDATE orders\
     SET status = $1\
@@ -113,7 +115,7 @@ app.patch("/orders/kitchen/update/:id", async (req, res) => {
   }
 });
 
-
+//fonction qui permet de supprimer une commande et renvoyer un message
 app.delete("/orders/kitchen/delete/:id", async (req, res) =>{
   try {
     const id = Number(req.params.id);
@@ -122,14 +124,12 @@ app.delete("/orders/kitchen/delete/:id", async (req, res) =>{
     if (deleteOrder.rows.length === 0){
       return res.status(404).json({error: `commande ${id} non trouvée`})
     }
-    return res.status(200)
-    .json({
-      ok: true,
-      message: `commande ${id} supprimée`
-    });
+    return res
+    .status(200)
+    .json({ok: true, message: `commande ${id} supprimée`, deleted: deleteOrder.rows[0]});
   } catch (error) {
-    // console.error("erreur lors de la suppression commande", error);
-    // res.status(500).json({error : "erreur serveur"});
+    console.error("erreur lors de la suppression commande", error);
+    res.status(500).json({error : "erreur serveur"});
   }
 })
 
