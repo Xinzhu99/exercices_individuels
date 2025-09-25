@@ -1,8 +1,6 @@
 const paramString = window.location.search;
 let idParams = new URLSearchParams(paramString);
-// console.log(idParams);
 let id = idParams.get("id");
-// console.log("id:", id);
 
 const API_URL = "http://localhost:3000";
 const user = localStorage.getItem("user");
@@ -24,7 +22,6 @@ const data = await fetchDish();
 const dish = await data[0];
 //fonction qui permet d'afficher les plats commandés dynamiquement
 const loadDish = async (params) => {
-// console.log("dish",dish);
   document.querySelector("#grid").innerHTML += `<div class="card">
         <h3 class="status">En préparation</h3>
         <h2>${dish.image}</h2>

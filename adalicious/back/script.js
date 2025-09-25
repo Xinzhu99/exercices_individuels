@@ -22,7 +22,7 @@ app.get("/menu", async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la récupération de data", error);
     res.status(500).json({ error: "Erreur serveur" });
-  }
+  };
 });
 
 //créer une route qui permet de récupérer le plat avec le param id
@@ -36,7 +36,7 @@ app.get("/menu/:id", async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la récupération des recettes:", error);
     res.status(500).json({ error: "Erreur serveur" });
-  }
+  };
 });
 
 //appel de cet api : ajouter un object dans orders

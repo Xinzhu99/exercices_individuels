@@ -58,7 +58,7 @@ const completeOrders = async (id) => {
     });
     const data = await response.json();
     alert(data.message);
-    loadOrders();                                                    //! 
+    loadOrders();                                                    //! besoin de rafraichir la page sinon ça change pas l'affichage 
   } catch (error) {
     console.log("Having difficulty connecting to api.", error);
   }
